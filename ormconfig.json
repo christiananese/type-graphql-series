@@ -4,7 +4,7 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "postgres",
+  "password": "",
   "database": "typegraphql-example",
   "synchronize": true,
   "logging": true,
