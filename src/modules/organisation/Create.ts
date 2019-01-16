@@ -1,12 +1,13 @@
-import { Resolver, /* Query, */ Mutation, Arg } from "type-graphql";
+import { Resolver, /* Query, */ Mutation, Arg, Ctx } from "type-graphql";
 
 import { OrganisationInput } from "./create/OrganisationInput";
 import { Organisation } from "../../entity/Organisation";
+import { MyContext } from "src/types/MyContext";
 
 @Resolver()
 export class CreateOrganisationResolver {
   @Mutation(() => Organisation)
-  async createOrganisation(@Arg("data")
+  async createOrganisation(@Ctx() ctx: MyContext, @Arg("data")
   {
     email,
     name,
@@ -16,7 +17,12 @@ export class CreateOrganisationResolver {
     city,
     country,
     zip
-  }: OrganisationInput): Promise<Organisation> {
+  }: OrganisationInput): Promise<Organisation | null> {
+
+
+    if (!ctx.req.session || !ctx.req.session.userId) {
+      return null;
+    }
 
     const organisation = await Organisation.create({
       email,
@@ -26,8 +32,10 @@ export class CreateOrganisationResolver {
       street,
       city,
       country,
-      zip
-    }).save();
+      zip,
+      ownerId: ctx.req.session!.userId
+    })
+    .save();
 
     return organisation;
   }

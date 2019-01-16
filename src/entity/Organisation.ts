@@ -6,7 +6,7 @@ import { User } from "./User";
 @Entity()
 export class Organisation extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Field()
@@ -50,7 +50,7 @@ export class Organisation extends BaseEntity {
   logoUrl: string;
 
   @Field()
-  @Column("uuid")
+  @Column("uuid", { nullable: true })
   ownerId: string;
 
   @Field(() => User)

@@ -6,7 +6,7 @@ import { Organisation } from "./Organisation";
 @Entity()
 export class User extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Field()
@@ -31,6 +31,7 @@ export class User extends BaseEntity {
 
   @Column("bool", { default: false })
   confirmed: boolean;
+
   @OneToMany(() => Organisation, organisation => organisation.owner)
   @ManyToOne(() => Organisation, organisation => organisation.members)
   organisation: Promise<Organisation>;
